@@ -36,8 +36,8 @@ export class ReportGenerator {
           report += `${item.id},${item.name},${item.value},${user.name}\n`;
           total += item.value;
         } else if (reportType === 'HTML') {
-          const style = item.priority ? 'style="font-weight:bold;"' : '';
-          report += `<tr ${style}><td>${item.id}</td><td>${item.name}</td><td>${item.value}</td></tr>\n`;
+          const style = item.priority ? ' style="font-weight:bold;"' : '';
+          report += `<tr${style}><td>${item.id}</td><td>${item.name}</td><td>${item.value}</td></tr>\n`;
           total += item.value;
         }
       } else if (user.role === 'USER') {
@@ -65,5 +65,20 @@ export class ReportGenerator {
     }
 
     return report.trim();
+  }
+
+  // Crie este novo método:
+  _generateHeader(reportType, user) {
+    if (reportType === 'CSV') {
+      return 'ID,NOME,VALOR,USUARIO\n';
+    } else if (reportType === 'HTML') {
+      let header = '<html><body>\n';
+      header += '<h1>Relatório</h1>\n';
+      header += `<h2>Usuário: ${user.name}</h2>\n`;
+      header += '<table>\n';
+      header += '<tr><th>ID</th><th>Nome</th><th>Valor</th></tr>\n';
+      return header;
+    }
+    return '';
   }
 }
